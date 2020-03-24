@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using file_service.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -18,6 +21,7 @@ namespace file_service
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            CreateBaseFolder();
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +30,8 @@ namespace file_service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDirectoryBrowser();
+            services.AddScoped<IFileRepository, FileRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,7 +42,15 @@ namespace file_service
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), Configuration.GetConnectionString("BaseFolder"))),
+                RequestPath = "/staticfiles",
+                EnableDirectoryBrowsing = true
+            });
+
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -46,6 +60,16 @@ namespace file_service
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void CreateBaseFolder()
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), Configuration.GetConnectionString("BaseFolder"));
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
         }
     }
 }
