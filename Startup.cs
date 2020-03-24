@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using file_service.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +34,7 @@ namespace file_service
             services.AddControllers();
             services.AddDirectoryBrowser();
             services.AddScoped<IFileRepository, FileRepository>();
+            services.AddAutoMapper(Assembly.GetAssembly(this.GetType()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
