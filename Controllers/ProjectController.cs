@@ -4,6 +4,7 @@ using AutoMapper;
 using file_service.Data;
 using file_service.Dtos;
 using file_service.Params;
+using file_service.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -24,10 +25,13 @@ namespace file_service.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetProjects()
+    public async Task<IActionResult> GetProjects([FromQuery]ProjectParams projectParams)
     {
-      var projectFromRepo = await _repo.GetProjects(new ProjectParams());
+      var projectFromRepo = await _repo.GetProjects(projectParams);
       var projectDto = _mapper.Map<IEnumerable<ProjectDto>>(projectFromRepo);
+
+      Response.AddPagination(projectFromRepo.CurrentPage, projectFromRepo.PageSize,
+                                projectFromRepo.TotalCount, projectFromRepo.TotalPages);
       return Ok(projectDto);
     }
   }

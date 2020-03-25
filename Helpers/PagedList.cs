@@ -9,7 +9,7 @@ namespace file_service.Helpers
     public class PagedList<T> : List<T>
     {
         public int CurrentPage { get; set; }
-        public int TotalPage { get; set; }
+        public int TotalPages { get; set; }
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
         public PagedList(List<T> items, int count, int pageNumber, int pageSize)
@@ -17,7 +17,7 @@ namespace file_service.Helpers
             TotalCount = count;
             PageSize = pageSize;
             CurrentPage = pageNumber;
-            TotalPage = (int)Math.Ceiling(count / (double)pageSize);
+            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             this.AddRange(items);
         }
 
