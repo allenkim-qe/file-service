@@ -19,24 +19,23 @@ namespace file_service.Data
       _config = config;
 
     }
-    public async Task<DirectoryInfo> CreateProject(string projectName, string categoryName)
+    public async Task<DirectoryInfo> CreateProjectDirectory(string projectName, string categoryName)
     {
       return await Task.Run(() => Directory.CreateDirectory(Path.Combine(_config.GetConnectionString("BaseFolder"), projectName + "/" + categoryName)));
     }
 
-    public async Task<PagedList<Project>> GetProjects(ProjectParams projectParams)
+    public Task<List<string>> GetProjectDirectoryList()
     {
-      List<Project> projects = new List<Project>();
+      List<string> projects = new List<string>();
       var directory= new DirectoryInfo(_config.GetConnectionString("BaseFolder"));
-      
-      directory
+ 
+      return Task.Run(() => {
+        directory
         .GetDirectories()
         .Select(dir => dir.Name)
-        .ToList().ForEach(dir => projects.Add(new Project {
-          Name = dir
-        }));
- 
-      return await PagedList<Project>.CreateAsync(projects, projectParams.PageNumber, projectParams.PageSize);
+        .ToList().ForEach(dir => projects.Add(dir));
+        return projects;
+      });
     }
   }
 }

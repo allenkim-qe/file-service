@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using file_service.Helpers;
@@ -8,7 +9,7 @@ namespace file_service.Data
 {
     public interface IFileRepository
     {
-        Task<DirectoryInfo> CreateProject(string projectName, string categoryName);
-        Task<PagedList<Project>> GetProjects(ProjectParams projectParams);
+        Task<DirectoryInfo> CreateProjectDirectory(string projectName, string categoryName);
+        Task<List<string>> GetProjectDirectoryList();
     }
 }

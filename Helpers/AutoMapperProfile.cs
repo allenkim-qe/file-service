@@ -8,7 +8,8 @@ namespace file_service.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<Project, ProjectDto>();
+            CreateMap<Project, ProjectToReturnDto>();
+            CreateMap<ProjectForCreationDto, Project>();
         }
     }
 }

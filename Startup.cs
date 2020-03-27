@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -32,7 +33,11 @@ namespace file_service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<DataContext>(options => {
+                options.UseNpgsql(Configuration.GetConnectionString("ServiceDatabase"));
+            });
             services.AddDirectoryBrowser();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IFileRepository, FileRepository>();
             services.AddAutoMapper(Assembly.GetAssembly(this.GetType()));
         }
