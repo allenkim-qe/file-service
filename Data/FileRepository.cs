@@ -19,7 +19,12 @@ namespace file_service.Data
       _config = config;
 
     }
-    public async Task<DirectoryInfo> CreateProjectDirectory(string projectName, string categoryName)
+    public async Task<DirectoryInfo> CreateProjectDirectory(string projectName)
+    {
+      return await Task.Run(() => Directory.CreateDirectory(Path.Combine(_config.GetConnectionString("BaseFolder"), projectName)));
+    }
+
+    public async Task<DirectoryInfo> CreateCategoryDirectory(string projectName, string categoryName)
     {
       return await Task.Run(() => Directory.CreateDirectory(Path.Combine(_config.GetConnectionString("BaseFolder"), projectName + "/" + categoryName)));
     }

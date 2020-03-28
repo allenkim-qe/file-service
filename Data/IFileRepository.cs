@@ -9,7 +9,8 @@ namespace file_service.Data
 {
     public interface IFileRepository
     {
-        Task<DirectoryInfo> CreateProjectDirectory(string projectName, string categoryName);
+        Task<DirectoryInfo> CreateProjectDirectory(string projectName);
         Task<List<string>> GetProjectDirectoryList();
+        Task<DirectoryInfo> CreateCategoryDirectory(string projectName, string categoryName);
     }
 }

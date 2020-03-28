@@ -38,6 +38,7 @@ namespace file_service
             });
             services.AddDirectoryBrowser();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IFileRepository, FileRepository>();
             services.AddAutoMapper(Assembly.GetAssembly(this.GetType()));
         }

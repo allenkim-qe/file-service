@@ -16,7 +16,8 @@ namespace file_service.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true),
-                    url = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
+                    Path = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false)
                 },
@@ -32,7 +33,9 @@ namespace file_service.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true),
-                    url = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
+                    Path = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     Items = table.Column<List<string>>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
                     ProjectId = table.Column<int>(nullable: false)

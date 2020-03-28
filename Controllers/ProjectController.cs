@@ -18,8 +18,10 @@ namespace file_service.Controllers
     private readonly IConfiguration _config;
     private readonly IProjectRepository _repo;
     private readonly IMapper _mapper;
-    public ProjectController(IConfiguration config, IProjectRepository repo, IMapper mapper)
+    private readonly IFileRepository _fileRepo;
+    public ProjectController(IConfiguration config, IProjectRepository repo, IFileRepository fileRepo, IMapper mapper)
     {
+      _fileRepo = fileRepo;
       _mapper = mapper;
       _repo = repo;
       _config = config;
@@ -43,20 +45,22 @@ namespace file_service.Controllers
       return Ok(projectToReturn);
     }
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<IActionResult> CreateProject(ProjectForCreationDto projectForCreationDto)
     {
-      if(await _repo.ExistProject(projectForCreationDto.Name))
+      if (await _repo.ExistProject(projectForCreationDto.Name))
       {
         return BadRequest("Project already exists");
       }
 
       var projectToCreate = _mapper.Map<Project>(projectForCreationDto);
 
+      var projectDirectoryInfo = await _fileRepo.CreateProjectDirectory(projectForCreationDto.Name);
+      projectToCreate.Path = projectDirectoryInfo.ToString();
+
       if (await _repo.CreateProject(projectToCreate))
       {
         var projectToReturn = _mapper.Map<ProjectToReturnDto>(projectToCreate);
-
         return CreatedAtRoute("GetProject", new { id = projectToCreate.Id }, projectToReturn);
       }
 

@@ -30,16 +30,22 @@ namespace file_service.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<List<string>>("Items")
                         .HasColumnType("text[]");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("url")
+                    b.Property<string>("Url")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -65,7 +71,10 @@ namespace file_service.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("url")
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

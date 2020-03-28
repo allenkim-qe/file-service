@@ -10,6 +10,8 @@ namespace file_service.Helpers
         {
             CreateMap<Project, ProjectToReturnDto>();
             CreateMap<ProjectForCreationDto, Project>();
+            CreateMap<Category, CategoryToReturnDto>();
+            CreateMap<CategoryForCreationDto, Category>();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace file_service.Data
         Task<Project> GetProject(int id);
         Task<bool> CreateProject(Project project);
         Task<bool> ExistProject(string projectName);
+        Task<bool> ExistProject(int id);
         Task<bool> SaveAll();
     }
 }
